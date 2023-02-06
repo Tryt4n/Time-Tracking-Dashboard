@@ -1,0 +1,213 @@
+@forward "./base/index";
+
+@use "./base/functions" as func;
+@use "./abstracts/colors" as c;
+@use "./abstracts/variables" as v;
+@use "./abstracts/mixins" as *;
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: c.$very-dark-blue;
+  @include flex(row, center, center);
+}
+
+.dashboard {
+  @include flex(row, center, stretch);
+  @include clamp(gap, 1rem);
+
+  .menu {
+    width: 20%;
+    color: white;
+    background: c.$dark-blue;
+    @include clamp(border-radius, 1rem);
+
+    &__presentation {
+      height: 60%;
+      background-color: c.$blue;
+      @include clamp(padding, 1.5rem);
+      @include clamp(border-radius, 1rem);
+
+      img {
+        width: 50px;
+        border: func.rem(3) solid white;
+        border-radius: 50%;
+        @include clamp(margin-bottom, 2rem);
+      }
+    }
+
+    &__subtitle {
+      font-size: 0.75rem;
+      color: c.$pale-blue;
+    }
+
+    &__name {
+      font-weight: lighter;
+      @include clamp(margin-bottom, 2rem);
+    }
+
+    &__settings {
+      @include flex(column, center, flex-start);
+      @include clampWithMoreProperties(padding, 0.75rem, 0rem);
+    }
+
+    &__data-type {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: c.$desaturated-blue;
+      text-align: start;
+      @include clampWithMoreProperties(padding, 0.5rem, 0rem);
+      @include clamp(padding-left, 1.5rem);
+      cursor: pointer;
+      &:hover,
+      &:focus {
+        color: hsl(0, 0%, 100%, 0.75);
+      }
+
+      &:disabled {
+        color: white;
+        cursor: auto;
+      }
+    }
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    @include clamp(gap, 1rem);
+  }
+
+  .card {
+    @include flex(column, stretch, stretch);
+    color: white;
+    @include clamp(border-radius, 0.7rem);
+    @include clamp(width, 200px);
+
+    &__background {
+      @include clamp(height, 35px);
+      overflow: hidden;
+      align-self: flex-end;
+    }
+
+    &__icon {
+      scale: 0.75;
+      translate: 0 -20%;
+    }
+
+    &__front {
+      background: c.$dark-blue;
+      @include clamp(border-radius, 0.5rem);
+      @include clamp(padding, 1rem);
+    }
+
+    &__menu-icon {
+      color: #bbc0ff;
+      cursor: pointer;
+      transition: v.$main-transition;
+      &:hover,
+      &:focus {
+        color: white;
+        scale: 1.1;
+      }
+    }
+
+    &__title-wrap {
+      @include flex(row, space-between, center);
+      @include clamp(margin-bottom, 1.5rem);
+    }
+
+    &__time {
+      @include clamp(font-size, 3rem);
+      font-weight: lighter;
+    }
+
+    &__last-time {
+      @include clamp(margin-top, 1rem);
+      color: c.$pale-blue;
+      font-size: 0.75rem;
+    }
+
+    &--work {
+      background: c.$light-orange;
+    }
+    &--play {
+      background: c.$soft-blue;
+    }
+    &--study {
+      background: c.$light-red;
+    }
+    &--exercise {
+      background: c.$lime-green;
+    }
+    &--social {
+      background: c.$violet;
+    }
+    &--self-care {
+      background: c.$soft-orange;
+    }
+  }
+}
+
+@media (width < 768px) {
+  body {
+    height: fit-content;
+  }
+
+  .dashboard {
+    flex-direction: column;
+    width: 90vw;
+    padding: 2rem 0;
+    overflow-x: hidden;
+
+    .menu {
+      width: 100%;
+
+      &__presentation {
+        @include flex();
+        gap: 1rem;
+
+        & img {
+          margin-bottom: 0;
+          @include clamp(width, 50px);
+          @include clamp(height, 50px);
+        }
+      }
+
+      &__name {
+        margin-bottom: 0;
+      }
+
+      &__settings {
+        flex-direction: row;
+        gap: 2rem;
+        @include clamp(padding, 1.5rem);
+      }
+
+      &__data-type {
+        padding: 0;
+      }
+    }
+
+    .dashboard-grid {
+      @include flex(column);
+    }
+
+    .card {
+      width: 100%;
+
+      &__title-wrap {
+        margin-bottom: 0.5rem;
+      }
+
+      &__time-wrap {
+        @include flex(row, space-between, center);
+      }
+
+      &__last-time {
+        margin-top: 0;
+      }
+    }
+  }
+}
